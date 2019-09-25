@@ -1,24 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" msgid="5934709770924185752">"CaptivePortalLogin"</string>
-    <string name="action_use_network" msgid="6076184727448466030">"Naudoti šį tinklą tokį, koks yra"</string>
-    <string name="action_do_not_use_network" msgid="4577366536956516683">"Nenaudoti šio tinklo"</string>
-    <string name="action_bar_label" msgid="917235635415966620">"Prisijungti prie tinklo"</string>
-    <string name="action_bar_title" msgid="5645564790486983117">"Prisijungimas prie „%1$s“"</string>
-    <string name="ssl_error_warning" msgid="6653188881418638872">"Kilo tinklo, prie kurio bandote prisijungti, problemų."</string>
-    <string name="ssl_error_example" msgid="647898534624078900">"Pavyzdžiui, prisijungimo puslapis gali nepriklausyti rodomai organizacijai."</string>
-    <string name="ssl_error_continue" msgid="6492718244923937110">"Vis tiek tęsti naudojant naršyklę"</string>
-    <string name="ssl_error_untrusted" msgid="1496280318271264520">"Šį sertifikatą išdavė nepatikima įstaiga."</string>
-    <string name="ssl_error_mismatch" msgid="3060364165934822383">"Svetainės pavadinimas neatitinka sertifikate nurodyto pavadinimo."</string>
-    <string name="ssl_error_expired" msgid="1501588340716182495">"Šio sertifikato galiojimo laikas baigėsi."</string>
-    <string name="ssl_error_not_yet_valid" msgid="8648649030525886924">"Šis sertifikatas dar negalioja."</string>
-    <string name="ssl_error_date_invalid" msgid="88425990680059223">"Šio sertifikato data netinkama."</string>
-    <string name="ssl_error_invalid" msgid="2540546515565633432">"Šis sertifikatas netinkamas."</string>
-    <string name="ssl_error_unknown" msgid="4405203446079465859">"Nežinoma sertifikato klaida."</string>
-    <string name="ssl_security_warning_title" msgid="8768539813847504404">"Saugos įspėjimas"</string>
-    <string name="ssl_error_view_certificate" msgid="5722652540168339333">"Žiūrėti sertifikatą"</string>
-    <string name="ok" msgid="2817931639040794018">"Gerai"</string>
-    <string name="page_info_address" msgid="1261481517455692363">"Adresas"</string>
-    <string name="page_info" msgid="4416941086705172545">"Puslapio informacija"</string>
+    <string name="app_name" msgid="5832002141924282426">"CaptivePortalLogin"</string>
+    <string name="action_use_network" msgid="8239049683838236305">"Naudoti šį tinklą tokį, koks yra"</string>
+    <string name="action_do_not_use_network" msgid="6324702363356892396">"Nenaudoti šio tinklo"</string>
+    <string name="action_bar_label" msgid="2023171629563754892">"Prisijungti prie tinklo"</string>
+    <string name="action_bar_title" msgid="2566334512545554724">"Prisijungimas prie „%1$s“"</string>
+    <string name="ssl_error_warning" msgid="494203210316238046">"Kilo tinklo, prie kurio bandote prisijungti, problemų."</string>
+    <string name="ssl_error_example" msgid="4574594291839092653">"Pavyzdžiui, prisijungimo puslapis gali nepriklausyti rodomai organizacijai."</string>
+    <string name="ssl_error_continue" msgid="1167243324376748637">"Vis tiek tęsti naudojant naršyklę"</string>
+    <string name="ssl_error_untrusted" msgid="5183246242332501768">"Šį sertifikatą išdavė nepatikima įstaiga."</string>
+    <string name="ssl_error_mismatch" msgid="5260665486390938291">"Svetainės pavadinimas neatitinka sertifikate nurodyto pavadinimo."</string>
+    <string name="ssl_error_expired" msgid="9098912817349951268">"Šio sertifikato galiojimo laikas baigėsi."</string>
+    <string name="ssl_error_not_yet_valid" msgid="4625726491067509546">"Šis sertifikatas dar negalioja."</string>
+    <string name="ssl_error_date_invalid" msgid="8113750623774526439">"Šio sertifikato data netinkama."</string>
+    <string name="ssl_error_invalid" msgid="5977636322438777389">"Šis sertifikatas netinkamas."</string>
+    <string name="ssl_error_unknown" msgid="3751419329218834886">"Nežinoma sertifikato klaida."</string>
+    <string name="ssl_security_warning_title" msgid="7912335118289529802">"Saugos įspėjimas"</string>
+    <string name="ssl_error_view_certificate" msgid="3447891108083278449">"Žiūrėti sertifikatą"</string>
+    <string name="ok" msgid="6584612582120777209">"Gerai"</string>
+    <string name="page_info_address" msgid="1290683284404217554">"Adresas"</string>
+    <string name="page_info" msgid="46593086046896385">"Puslapio informacija"</string>
 </resources>
