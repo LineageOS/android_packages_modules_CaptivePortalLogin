@@ -25,6 +25,7 @@ java_defaults {
         "captiveportal-lib",
     ],
     manifest: "AndroidManifest.xml",
+    plugins: ["java_api_finder"],
 }
 
 android_app {
