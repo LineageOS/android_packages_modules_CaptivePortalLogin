@@ -38,6 +38,7 @@ import android.net.http.SslCertificate;
 import android.net.http.SslError;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.text.TextUtils;
@@ -81,6 +82,8 @@ public class CaptivePortalLoginActivity extends Activity {
 
     private static final int SOCKET_TIMEOUT_MS = 10000;
     public static final String HTTP_LOCATION_HEADER_NAME = "Location";
+    private static final String DEFAULT_CAPTIVE_PORTAL_HTTP_URL =
+            "http://connectivitycheck.gstatic.com/generate_204";
 
     private enum Result {
         DISMISSED(MetricsEvent.ACTION_CAPTIVE_PORTAL_LOGIN_RESULT_DISMISSED),
@@ -316,8 +319,13 @@ public class CaptivePortalLoginActivity extends Activity {
 
     private URL getUrl() {
         String url = getIntent().getStringExtra(ConnectivityManager.EXTRA_CAPTIVE_PORTAL_URL);
-        if (url == null) {
-            url = mCm.getCaptivePortalServerUrl();
+        if (url == null) { // TODO: Have a metric to know how often empty url happened.
+            // ConnectivityManager#getCaptivePortalServerUrl is deprecated starting with Android R.
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.Q) {
+                url = DEFAULT_CAPTIVE_PORTAL_HTTP_URL;
+            } else {
+                url = mCm.getCaptivePortalServerUrl();
+            }
         }
         return makeURL(url);
     }
