@@ -266,17 +266,17 @@ public class CaptivePortalLoginActivity extends Activity {
         final Result result;
         final String action;
         final int id = item.getItemId();
-        switch (id) {
-            case R.id.action_use_network:
-                result = Result.WANTED_AS_IS;
-                action = "USE_NETWORK";
-                break;
-            case R.id.action_do_not_use_network:
-                result = Result.UNWANTED;
-                action = "DO_NOT_USE_NETWORK";
-                break;
-            default:
-                return super.onOptionsItemSelected(item);
+        // This can't be a switch case because resource will be declared as static only but not
+        // static final as of ADT 14 in a library project. See
+        // http://tools.android.com/tips/non-constant-fields.
+        if (id == R.id.action_use_network) {
+            result = Result.WANTED_AS_IS;
+            action = "USE_NETWORK";
+        } else if (id == R.id.action_do_not_use_network) {
+            result = Result.UNWANTED;
+            action = "DO_NOT_USE_NETWORK";
+        } else {
+            return super.onOptionsItemSelected(item);
         }
         if (DBG) {
             Log.d(TAG, String.format("onOptionsItemSelect %s for %s", action, mUrl.toString()));
