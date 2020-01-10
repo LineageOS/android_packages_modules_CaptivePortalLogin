@@ -523,13 +523,21 @@ public class CaptivePortalLoginActivity extends Activity {
             mSslError = error;
         }
 
+        private String makeHtmlTag() {
+            if (getWebview().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                return "<html dir=\"rtl\">";
+            }
+
+            return "<html>";
+        }
+
         private String makeSslErrorPage() {
             final String warningMsg = getString(R.string.ssl_error_warning);
             final String exampleMsg = getString(R.string.ssl_error_example);
             final String continueMsg = getString(R.string.ssl_error_continue);
             final String certificateMsg = getString(R.string.ssl_error_view_certificate);
             return String.join("\n",
-                    "<html>",
+                    makeHtmlTag(),
                     "<head>",
                     "  <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">",
                     "  <style>",
