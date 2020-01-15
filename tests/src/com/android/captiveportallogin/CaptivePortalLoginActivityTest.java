@@ -58,7 +58,6 @@ import org.mockito.quality.Strictness;
 public class CaptivePortalLoginActivityTest {
     private static final String TEST_URL = "http://android.test.com";
     private static final int TEST_NETID = 1234;
-    private long mPackageVersion;
     private CaptivePortalLoginActivity mActivity;
     private MockitoSession mSession;
     private Network mNetwork = new Network(TEST_NETID);
@@ -133,8 +132,6 @@ public class CaptivePortalLoginActivityTest {
                 .strictness(Strictness.WARN)
                 .startMocking();
         final Context context = InstrumentationRegistry.getContext();
-        mPackageVersion = context.getPackageManager().getPackageInfo(
-                context.getPackageName(), 0 /* flags */).getLongVersionCode();
         setDismissPortalInValidatedNetwork(true);
         // onCreate will be triggered in launchActivity(). Handle mock objects after
         // launchActivity() if any new mock objects. Activity launching flow will be
