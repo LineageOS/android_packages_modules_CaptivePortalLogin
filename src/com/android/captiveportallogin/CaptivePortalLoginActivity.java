@@ -385,6 +385,26 @@ public class CaptivePortalLoginActivity extends Activity {
         return SystemProperties.getInt("ro.debuggable", 0) == 1;
     }
 
+    private void reevaluateNetwork() {
+        if (isFeatureEnabled(DISMISS_PORTAL_IN_VALIDATED_NETWORK, isDismissPortalEnabled())) {
+            // TODO : replace this with an actual call to the method when the network stack
+            // is built against a recent enough SDK.
+            if (callVoidMethodIfExists(mCaptivePortal, "reevaluateNetwork")) return;
+        }
+        testForCaptivePortal();
+    }
+
+    private boolean callVoidMethodIfExists(@NonNull final Object target,
+            @NonNull final String methodName) {
+        try {
+            final Method method = target.getClass().getDeclaredMethod(methodName);
+            method.invoke(target);
+            return true;
+        } catch (ReflectiveOperationException e) {
+            return false;
+        }
+    }
+
     private void testForCaptivePortal() {
         // TODO: reuse NetworkMonitor facilities for consistent captive portal detection.
         new Thread(new Runnable() {
@@ -481,7 +501,7 @@ public class CaptivePortalLoginActivity extends Activity {
                 getActionBar().setSubtitle(subtitle);
             }
             getProgressBar().setVisibility(View.VISIBLE);
-            testForCaptivePortal();
+            reevaluateNetwork();
         }
 
         @Override
@@ -503,7 +523,7 @@ public class CaptivePortalLoginActivity extends Activity {
                 view.requestFocus();
                 view.clearHistory();
             }
-            testForCaptivePortal();
+            reevaluateNetwork();
         }
 
         // Convert Android scaled-pixels (sp) to HTML size.
