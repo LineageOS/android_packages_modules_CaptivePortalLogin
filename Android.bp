@@ -31,6 +31,8 @@ android_app {
     name: "CaptivePortalLogin",
     defaults: ["CaptivePortalLoginDefaults"],
     certificate: "networkstack",
+    min_sdk_version: "29",
+    target_sdk_version: "29",
 }
 
 android_library {
