@@ -28,11 +28,16 @@ import static com.android.dx.mockito.inline.extended.ExtendedMockito.mockitoSess
 
 import static junit.framework.Assert.assertEquals;
 
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.any;
 
+import android.app.admin.DevicePolicyManager;
 import android.content.Context;
 import android.content.Intent;
 import android.net.CaptivePortal;
+import android.net.ConnectivityManager;
 import android.net.Network;
 import android.net.NetworkCapabilities;
 import android.os.Parcel;
@@ -49,6 +54,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.mockito.MockitoSession;
 import org.mockito.quality.Strictness;
@@ -58,9 +64,22 @@ import org.mockito.quality.Strictness;
 public class CaptivePortalLoginActivityTest {
     private static final String TEST_URL = "http://android.test.com";
     private static final int TEST_NETID = 1234;
-    private CaptivePortalLoginActivity mActivity;
+    private InstrumentedCaptivePortalLoginActivity mActivity;
     private MockitoSession mSession;
     private Network mNetwork = new Network(TEST_NETID);
+    @Mock
+    private static ConnectivityManager sMockConnectivityManager;
+    @Mock
+    private static DevicePolicyManager sMockDevicePolicyManager;
+
+    public static class InstrumentedCaptivePortalLoginActivity extends CaptivePortalLoginActivity {
+        @Override
+        public Object getSystemService(String name) {
+            if (Context.CONNECTIVITY_SERVICE.equals(name)) return sMockConnectivityManager;
+            if (Context.DEVICE_POLICY_SERVICE.equals(name)) return sMockDevicePolicyManager;
+            return super.getSystemService(name);
+        }
+    }
 
     /** Class to replace CaptivePortal to prevent mock object is updated and replaced by parcel. */
     public static class MockCaptivePortal extends CaptivePortal {
@@ -121,8 +140,8 @@ public class CaptivePortalLoginActivityTest {
     // TODO: Update to ActivityScenarioRule.
     @Rule
     public final ActivityTestRule mActivityRule =
-            new ActivityTestRule<>(CaptivePortalLoginActivity.class, false /* initialTouchMode */,
-                    false  /* launchActivity */);
+            new ActivityTestRule<>(InstrumentedCaptivePortalLoginActivity.class,
+                    false /* initialTouchMode */, false  /* launchActivity */);
 
     @Before
     public void setUp() throws Exception {
@@ -133,12 +152,18 @@ public class CaptivePortalLoginActivityTest {
                 .startMocking();
         final Context context = InstrumentationRegistry.getContext();
         setDismissPortalInValidatedNetwork(true);
+        // CaptivePortalLoginActivity#onCreate() will call getNetworkCapabilities(), if
+        // getNetworkCapabilities() returns null, then the CaptivePortalLoginActivity will be
+        // finished. Return a NetworkCapabilities to keep the activity, and the WebViewClient will
+        // also be created as usual.
+        final NetworkCapabilities nc = new NetworkCapabilities();
+        doReturn(nc).when(sMockConnectivityManager).getNetworkCapabilities(mNetwork);
         // onCreate will be triggered in launchActivity(). Handle mock objects after
         // launchActivity() if any new mock objects. Activity launching flow will be
         //  1. launchActivity()
         //  2. onCreate()
         //  3. end of launchActivity()
-        mActivity = (CaptivePortalLoginActivity) mActivityRule.launchActivity(
+        mActivity = (InstrumentedCaptivePortalLoginActivity) mActivityRule.launchActivity(
             new Intent(ACTION_CAPTIVE_PORTAL_SIGN_IN)
                 .putExtra(EXTRA_CAPTIVE_PORTAL_URL, TEST_URL)
                 .putExtra(EXTRA_NETWORK, mNetwork)
@@ -146,6 +171,66 @@ public class CaptivePortalLoginActivityTest {
         );
         // Verify activity created successfully.
         assertNotNull(mActivity);
+    }
+
+    private void configNonVpnNetwork() {
+        final Network[] networks = new Network[] {new Network(mNetwork)};
+        doReturn(networks).when(sMockConnectivityManager).getAllNetworks();
+        final NetworkCapabilities nonVpnCapabilities = new NetworkCapabilities()
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+        doReturn(nonVpnCapabilities).when(sMockConnectivityManager).getNetworkCapabilities(
+                mNetwork);
+    }
+
+    private void configVpnNetwork() {
+        final Network network1 = new Network(TEST_NETID + 1);
+        final Network network2 = new Network(TEST_NETID + 2);
+        final Network[] networks = new Network[] {network1, network2};
+        doReturn(networks).when(sMockConnectivityManager).getAllNetworks();
+        final NetworkCapabilities underlyingCapabilities = new NetworkCapabilities()
+                .addTransportType(NetworkCapabilities.TRANSPORT_WIFI);
+        final NetworkCapabilities vpnCapabilities = new NetworkCapabilities(underlyingCapabilities)
+                .addTransportType(NetworkCapabilities.TRANSPORT_VPN);
+        doReturn(underlyingCapabilities).when(sMockConnectivityManager).getNetworkCapabilities(
+                network1);
+        doReturn(vpnCapabilities).when(sMockConnectivityManager).getNetworkCapabilities(network2);
+    }
+
+    @Test
+    public void testHasVpnNetwork() throws Exception {
+        // Test non-vpn case.
+        configNonVpnNetwork();
+        assertFalse(mActivity.hasVpnNetwork());
+        // Test vpn case.
+        configVpnNetwork();
+        assertTrue(mActivity.hasVpnNetwork());
+    }
+
+    @Test
+    public void testIsAlwaysOnVpnEnabled() throws Exception {
+        doReturn(false).when(sMockDevicePolicyManager).isAlwaysOnVpnLockdownEnabled(any());
+        assertFalse(mActivity.isAlwaysOnVpnEnabled());
+        doReturn(true).when(sMockDevicePolicyManager).isAlwaysOnVpnLockdownEnabled(any());
+        assertTrue(mActivity.isAlwaysOnVpnEnabled());
+    }
+
+    @Test
+    public void testVpnMsgOrLinkToBrowser() throws Exception {
+        // Test non-vpn case.
+        configNonVpnNetwork();
+        doReturn(false).when(sMockDevicePolicyManager).isAlwaysOnVpnLockdownEnabled(any());
+        final String linkMatcher = ".*<a\\s+href.*";
+        assertTrue(mActivity.getWebViewClient().getVpnMsgOrLinkToBrowser().matches(linkMatcher));
+
+        // Test has vpn case.
+        configVpnNetwork();
+        final String vpnMatcher = ".*<div.*vpnwarning.*";
+        assertTrue(mActivity.getWebViewClient().getVpnMsgOrLinkToBrowser().matches(vpnMatcher));
+
+        // Test always-on vpn case.
+        configNonVpnNetwork();
+        doReturn(true).when(sMockDevicePolicyManager).isAlwaysOnVpnLockdownEnabled(any());
+        assertTrue(mActivity.getWebViewClient().getVpnMsgOrLinkToBrowser().matches(vpnMatcher));
     }
 
     @After
