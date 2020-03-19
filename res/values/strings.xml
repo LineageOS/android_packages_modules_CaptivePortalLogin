@@ -22,5 +22,19 @@
     <string name="ok">OK</string>
     <string name="page_info_address">Address:</string>
     <string name="page_info">Page info</string>
+    <!-- Text shown in notification to indicate that a file (filename as parameter) is being downloaded -->
+    <string name="downloading_paramfile">Downloading %1$s</string>
+    <!-- Text shown in notification to indicate that a download has completed successfully -->
+    <string name="download_completed">Download completed</string>
+    <!-- Text shown in notification to indicate that the download of a file (filename as parameter) has stopped with an error -->
+    <string name="error_downloading_paramfile">Could not download %1$s</string>
+    <!-- Notification channel name (shown in settings) for download notifications (downloaded completed or error).  [CHAR LIMIT=40] -->
+    <string name="channel_name_downloads">Downloads</string>
+    <!-- Notification channel description (shown in settings) for download notifications (downloaded completed or error). -->
+    <string name="channel_description_downloads">Notifications showing completed or cancelled downloads</string>
+    <!-- Notification channel name (shown in settings) for notifications showing progress of current downloads. [CHAR LIMIT=40] -->
+    <string name="channel_name_download_progress">Download progress</string>
+    <!-- Notification channel description (shown in settings) for notifications showing progress of current downloads. -->
+    <string name="channel_description_download_progress">Notifications showing the progress of file downloads</string>
 
 </resources>
