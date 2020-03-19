@@ -8,6 +8,8 @@
     <string name="action_bar_title" msgid="2566334512545554724">"%1$s သို့ လက်မှတ်ထိုးဝင်ပါ"</string>
     <string name="ssl_error_warning" msgid="494203210316238046">"သင်ချိတ်ဆက်ရန် ကြိုးစားနေသည့် ကွန်ရက်သည် လုံခြုံရေးပြဿနာ ရှိနေသည်။"</string>
     <string name="ssl_error_example" msgid="4574594291839092653">"ဥပမာ၊ ဝင်ရောက်ရန် စာမျက်နှာသည် ပြသထားသည့် အဖွဲ့အစည်းနှင့် သက်ဆိုင်မှု မရှိနိုင်ပါ။"</string>
+    <!-- no translation found for ssl_error_vpnwarning (2670824599967684055) -->
+    <skip />
     <string name="ssl_error_continue" msgid="1167243324376748637">"ဘရောက်ဇာမှတစ်ဆင့် ဆက်လုပ်ရန်"</string>
     <string name="ssl_error_untrusted" msgid="5183246242332501768">"ဤအသိအမှတ်ပြုလက်မှတ်သည် ယုံကြည်ရသော စစ်ဆေးရေးအဖွဲ့ထံမှ မဟုတ်ပါ။"</string>
     <string name="ssl_error_mismatch" msgid="5260665486390938291">"ဝဘ်ဆိုက်အမည်သည် အသိအမှတ်ပြုလက်မှတ်ရှိ အမည်နှင့် မကိုက်ညီပါ။"</string>
