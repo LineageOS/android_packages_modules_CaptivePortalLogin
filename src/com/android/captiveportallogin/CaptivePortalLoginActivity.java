@@ -614,11 +614,11 @@ public class CaptivePortalLoginActivity extends Activity {
         @VisibleForTesting
         String getVpnMsgOrLinkToBrowser() {
             if (isAlwaysOnVpnEnabled() || hasVpnNetwork()) {
-                final String vpnWarning = getString(R.string.ssl_error_vpnwarning);
+                final String vpnWarning = getString(R.string.no_bypass_error_vpnwarning);
                 return "  <div class=vpnwarning>" + vpnWarning + "</div><br>";
             }
 
-            final String continueMsg = getString(R.string.ssl_error_continue);
+            final String continueMsg = getString(R.string.error_continue_via_browser);
             return "  <a href=" + mBrowserBailOutToken + ">" + continueMsg + "</a><br>";
         }
 
