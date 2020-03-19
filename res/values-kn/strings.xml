@@ -8,6 +8,8 @@
     <string name="action_bar_title" msgid="2566334512545554724">"%1$s ಗೆ ಸೈನ್ ಇನ್ ಮಾಡಿ"</string>
     <string name="ssl_error_warning" msgid="494203210316238046">"ನೀವು ಸೇರಬೇಕೆಂದಿರುವ ನೆಟ್‌ವರ್ಕ್ ಭದ್ರತೆ ಸಮಸ್ಯೆಗಳನ್ನು ಹೊಂದಿದೆ."</string>
     <string name="ssl_error_example" msgid="4574594291839092653">"ಉದಾಹರಣೆಗೆ, ಲಾಗಿನ್ ಪುಟವು ತೋರಿಸಲಾಗಿರುವ ಸಂಸ್ಥೆಗೆ ಸಂಬಂಧಿಸಿರುವುದಿಲ್ಲ."</string>
+    <!-- no translation found for ssl_error_vpnwarning (2670824599967684055) -->
+    <skip />
     <string name="ssl_error_continue" msgid="1167243324376748637">"ಹೇಗಾದರೂ ಬ್ರೌಸರ್ ಮೂಲಕ ಮುಂದುವರಿಸಿ"</string>
     <string name="ssl_error_untrusted" msgid="5183246242332501768">"ಈ ಪ್ರಮಾಣಪತ್ರವು ವಿಶ್ವಾಸಾರ್ಹ ಪ್ರಾಧಿಕಾರದಿಂದ ಬಂದಿಲ್ಲ."</string>
     <string name="ssl_error_mismatch" msgid="5260665486390938291">"ಸೈಟ್‌ನ ಹೆಸರು ಪ್ರಮಾಣಪತ್ರದಲ್ಲಿನ ಹೆಸರಿನ ಜೊತೆಗೆ ಹೊಂದಾಣಿಕೆಯಾಗುತ್ತಿಲ್ಲ."</string>
