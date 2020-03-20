@@ -8,9 +8,10 @@
     <string name="action_bar_title" msgid="2566334512545554724">"%1$s에 로그인"</string>
     <string name="ssl_error_warning" msgid="494203210316238046">"가입하려는 네트워크에 보안 문제가 있습니다."</string>
     <string name="ssl_error_example" msgid="4574594291839092653">"예를 들어 로그인 페이지가 표시된 조직에 속하지 않을 수 있습니다."</string>
-    <!-- no translation found for ssl_error_vpnwarning (2670824599967684055) -->
+    <!-- no translation found for no_bypass_error_vpnwarning (5263739853101734851) -->
     <skip />
-    <string name="ssl_error_continue" msgid="1167243324376748637">"브라우저를 통해 계속하기"</string>
+    <!-- no translation found for error_continue_via_browser (7091550471744444659) -->
+    <skip />
     <string name="ssl_error_untrusted" msgid="5183246242332501768">"신뢰할 수 있는 인증 기관에서 발급한 인증서가 아닙니다."</string>
     <string name="ssl_error_mismatch" msgid="5260665486390938291">"사이트 이름이 인증서상의 이름과 일치하지 않습니다."</string>
     <string name="ssl_error_expired" msgid="9098912817349951268">"인증서가 만료되었습니다."</string>
@@ -20,7 +21,25 @@
     <string name="ssl_error_unknown" msgid="3751419329218834886">"알 수 없는 인증서 오류입니다."</string>
     <string name="ssl_security_warning_title" msgid="7912335118289529802">"보안 경고"</string>
     <string name="ssl_error_view_certificate" msgid="3447891108083278449">"인증서 보기"</string>
+    <!-- no translation found for custom_scheme_warning (1809266150423969087) -->
+    <skip />
+    <!-- no translation found for custom_scheme_example (7126568152528588592) -->
+    <skip />
     <string name="ok" msgid="6584612582120777209">"확인"</string>
     <string name="page_info_address" msgid="1290683284404217554">"주소:"</string>
     <string name="page_info" msgid="46593086046896385">"페이지 정보"</string>
+    <!-- no translation found for downloading_paramfile (685182551665849043) -->
+    <skip />
+    <!-- no translation found for download_completed (5430865338124330584) -->
+    <skip />
+    <!-- no translation found for error_downloading_paramfile (2431082160412515409) -->
+    <skip />
+    <!-- no translation found for channel_name_downloads (8446786286617933444) -->
+    <skip />
+    <!-- no translation found for channel_description_downloads (8751992699855833481) -->
+    <skip />
+    <!-- no translation found for channel_name_download_progress (6805362260479605374) -->
+    <skip />
+    <!-- no translation found for channel_description_download_progress (5788105841492070647) -->
+    <skip />
 </resources>
