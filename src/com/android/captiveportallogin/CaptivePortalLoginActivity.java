@@ -24,6 +24,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Application;
 import android.app.admin.DevicePolicyManager;
+import android.content.ActivityNotFoundException;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -68,6 +69,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
 import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 
@@ -619,13 +621,14 @@ public class CaptivePortalLoginActivity extends Activity {
             }
 
             final String continueMsg = getString(R.string.error_continue_via_browser);
-            return "  <a href=" + mBrowserBailOutToken + ">" + continueMsg + "</a><br>";
+            return "  <a id=continue_link href=" + mBrowserBailOutToken + ">" + continueMsg
+                    + "</a><br>";
         }
 
-        private String makeSslErrorPage() {
-            final String warningMsg = getString(R.string.ssl_error_warning);
-            final String exampleMsg = getString(R.string.ssl_error_example);
-            final String certificateMsg = getString(R.string.ssl_error_view_certificate);
+        private String makeErrorPage(@StringRes int warningMsgRes, @StringRes int exampleMsgRes,
+                String extraLink) {
+            final String warningMsg = getString(warningMsgRes);
+            final String exampleMsg = getString(exampleMsgRes);
             return String.join("\n",
                     makeHtmlTag(),
                     "<head>",
@@ -663,7 +666,7 @@ public class CaptivePortalLoginActivity extends Activity {
                     "      text-decoration:none;",
                     "      text-transform:uppercase;",
                     "    }",
-                    "    a.certificate {",
+                    "    a#cert_link {",
                     "      margin-top:0px;",
                     "    }",
                     "  </style>",
@@ -673,16 +676,37 @@ public class CaptivePortalLoginActivity extends Activity {
                     "  <div class=warn>" + warningMsg + "</div>",
                     "  <div class=example>" + exampleMsg + "</div>",
                     getVpnMsgOrLinkToBrowser(),
-                    "  <a class=certificate href=" + mCertificateOutToken + ">" + certificateMsg +
-                            "</a>",
+                    extraLink,
                     "</body>",
                     "</html>");
+        }
+
+        private String makeCustomSchemeErrorPage() {
+            return makeErrorPage(R.string.custom_scheme_warning, R.string.custom_scheme_example,
+                    "" /* extraLink */);
+        }
+
+        private String makeSslErrorPage() {
+            final String certificateMsg = getString(R.string.ssl_error_view_certificate);
+            return makeErrorPage(R.string.ssl_error_warning, R.string.ssl_error_example,
+                    "<a id=cert_link href=" + mCertificateOutToken + ">" + certificateMsg
+                            + "</a>");
         }
 
         @Override
         public boolean shouldOverrideUrlLoading (WebView view, String url) {
             if (url.startsWith("tel:")) {
-                startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse(url)));
+                return startActivity(Intent.ACTION_DIAL, url);
+            } else if (url.startsWith("sms:")) {
+                return startActivity(Intent.ACTION_SENDTO, url);
+            } else if (!url.startsWith("http:")
+                    && !url.startsWith("https:") && !url.startsWith(INTERNAL_ASSETS)) {
+                // If the page is not in a supported scheme (HTTP, HTTPS or internal page),
+                // show an error page that informs the user that the page is not supported. The
+                // user can bypass the warning and reopen the portal in browser if needed.
+                // This is done as it is unclear whether third party applications can properly
+                // handle multinetwork scenarios, if the scheme refers to a third party application.
+                loadCustomSchemeErrorPage(view);
                 return true;
             }
             if (url.contains(mCertificateOutToken) && mSslError != null) {
@@ -691,6 +715,24 @@ public class CaptivePortalLoginActivity extends Activity {
             }
             return false;
         }
+
+        private boolean startActivity(String action, String uriData) {
+            final Intent intent = new Intent(action, Uri.parse(uriData));
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            try {
+                CaptivePortalLoginActivity.this.startActivity(intent);
+                return true;
+            } catch (ActivityNotFoundException e) {
+                Log.e(TAG, "No activity found to handle captive portal intent", e);
+                return false;
+            }
+        }
+
+        protected void loadCustomSchemeErrorPage(WebView view) {
+            final String errorPage = makeCustomSchemeErrorPage();
+            view.loadDataWithBaseURL(INTERNAL_ASSETS, errorPage, "text/HTML", "UTF-8", null);
+        }
+
         private void showSslAlertDialog(SslErrorHandler handler, SslError error, String title) {
             final LayoutInflater factory = LayoutInflater.from(CaptivePortalLoginActivity.this);
             final View sslWarningView = factory.inflate(R.layout.ssl_warning, null);
