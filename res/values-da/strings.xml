@@ -19,7 +19,7 @@
     <string name="ssl_error_unknown" msgid="3751419329218834886">"Ukendt certifikatfejl."</string>
     <string name="ssl_security_warning_title" msgid="7912335118289529802">"Sikkerhedsadvarsel"</string>
     <string name="ssl_error_view_certificate" msgid="3447891108083278449">"Se certifikat"</string>
-    <string name="custom_scheme_warning" msgid="1809266150423969087">"Det netværk, du forsøger at oprette forbindelse til, anmoder om, at en anden app åbnes."</string>
+    <string name="custom_scheme_warning" msgid="1809266150423969087">"Det netværk, du forsøger at oprette forbindelse til, anmoder om at åbne en anden app."</string>
     <string name="custom_scheme_example" msgid="7126568152528588592">"Loginsiden kan f.eks. kræve, at en bestemt app anvendes til godkendelse"</string>
     <string name="ok" msgid="6584612582120777209">"OK"</string>
     <string name="page_info_address" msgid="1290683284404217554">"Adresse:"</string>
