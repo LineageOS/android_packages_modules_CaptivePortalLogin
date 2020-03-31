@@ -25,7 +25,7 @@
     <string name="page_info_address" msgid="1290683284404217554">"العنوان:"</string>
     <string name="page_info" msgid="46593086046896385">"معلومات الصفحة"</string>
     <string name="downloading_paramfile" msgid="685182551665849043">"‏جارٍ تنزيل %1$s."</string>
-    <string name="download_completed" msgid="5430865338124330584">"اكتمل التنزيل."</string>
+    <string name="download_completed" msgid="5430865338124330584">"اكتمَل التنزيل."</string>
     <string name="error_downloading_paramfile" msgid="2431082160412515409">"‏تعذّر تنزيل %1$s."</string>
     <string name="channel_name_downloads" msgid="8446786286617933444">"عمليات التنزيل"</string>
     <string name="channel_description_downloads" msgid="8751992699855833481">"إشعارات بشأن عمليات التنزيل التي اكتملت أو تم إلغاؤها"</string>

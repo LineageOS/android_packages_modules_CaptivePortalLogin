@@ -19,7 +19,7 @@
     <string name="ssl_error_unknown" msgid="3751419329218834886">"Error sertifikat tak dikenal."</string>
     <string name="ssl_security_warning_title" msgid="7912335118289529802">"Peringatan keamanan"</string>
     <string name="ssl_error_view_certificate" msgid="3447891108083278449">"Lihat sertifikat"</string>
-    <string name="custom_scheme_warning" msgid="1809266150423969087">"Jaringan yang ingin Anda ikuti meminta untuk membuka aplikasi lain"</string>
+    <string name="custom_scheme_warning" msgid="1809266150423969087">"Jaringan yang ingin Anda ikuti meminta untuk membuka aplikasi lain."</string>
     <string name="custom_scheme_example" msgid="7126568152528588592">"Misalnya, halaman login dapat meminta autentikasi dari aplikasi tertentu"</string>
     <string name="ok" msgid="6584612582120777209">"Oke"</string>
     <string name="page_info_address" msgid="1290683284404217554">"Alamat:"</string>

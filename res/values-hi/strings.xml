@@ -30,5 +30,5 @@
     <string name="channel_name_downloads" msgid="8446786286617933444">"डाउनलोड"</string>
     <string name="channel_description_downloads" msgid="8751992699855833481">"फ़ाइल के डाउनलोड पूरा होने या रद्द होने के बारे में जानकारी देने वाली सूचनाएं"</string>
     <string name="channel_name_download_progress" msgid="6805362260479605374">"डाउनलोड हो रहा है"</string>
-    <string name="channel_description_download_progress" msgid="5788105841492070647">"फ़ाइल के डाउनलोड होने की प्रगति के बारे में बताने वाली सूचनाएं"</string>
+    <string name="channel_description_download_progress" msgid="5788105841492070647">"कितनी फ़ाइल डाउनलोड हुई है, इसकी जानकारी देने वाली सूचनाएं"</string>
 </resources>

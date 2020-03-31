@@ -20,7 +20,7 @@
     <string name="ssl_security_warning_title" msgid="7912335118289529802">"Advertencia de seguridad"</string>
     <string name="ssl_error_view_certificate" msgid="3447891108083278449">"Ver certificado"</string>
     <string name="custom_scheme_warning" msgid="1809266150423969087">"La red a la que intentas unirte solicita abrir otra aplicación."</string>
-    <string name="custom_scheme_example" msgid="7126568152528588592">"Por ejemplo, es posible que en la página de inicio de sesión se necesite una aplicación determinada para hacer la autenticación"</string>
+    <string name="custom_scheme_example" msgid="7126568152528588592">"Por ejemplo, es posible que en la página de inicio de sesión se necesite una aplicación determinada para la autenticación"</string>
     <string name="ok" msgid="6584612582120777209">"Aceptar"</string>
     <string name="page_info_address" msgid="1290683284404217554">"Dirección:"</string>
     <string name="page_info" msgid="46593086046896385">"Información de la página"</string>
