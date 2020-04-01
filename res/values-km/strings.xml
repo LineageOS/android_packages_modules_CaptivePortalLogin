@@ -20,7 +20,7 @@
     <string name="ssl_security_warning_title" msgid="7912335118289529802">"ការព្រមានផ្នែកសុវត្ថិភាព"</string>
     <string name="ssl_error_view_certificate" msgid="3447891108083278449">"មើល​វិញ្ញាបនបត្រ"</string>
     <string name="custom_scheme_warning" msgid="1809266150423969087">"បណ្ដាញ​ដែលអ្នកកំពុង​ព្យាយាមចូលរួម​កំពុងស្នើសុំបើកកម្មវិធី​ផ្សេងទៀត។"</string>
-    <string name="custom_scheme_example" msgid="7126568152528588592">"ឧទាហរណ៍ ទំព័រចូលអាចតម្រូវឱ្យផ្ទៀងផ្ទាត់កម្មវិធីជាក់លាក់"</string>
+    <string name="custom_scheme_example" msgid="7126568152528588592">"ឧទាហរណ៍ ទំព័រចូលអាចតម្រូវឱ្យមាន​កម្មវិធីជាក់លាក់ ដើម្បីផ្ទៀងផ្ទាត់"</string>
     <string name="ok" msgid="6584612582120777209">"យល់ព្រម"</string>
     <string name="page_info_address" msgid="1290683284404217554">"អាសយដ្ឋាន៖"</string>
     <string name="page_info" msgid="46593086046896385">"ព័ត៌មាន​ទំព័រ"</string>

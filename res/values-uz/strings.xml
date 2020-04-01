@@ -28,7 +28,7 @@
     <string name="download_completed" msgid="5430865338124330584">"Yuklab olindi"</string>
     <string name="error_downloading_paramfile" msgid="2431082160412515409">"Yuklab olinmadi: %1$s"</string>
     <string name="channel_name_downloads" msgid="8446786286617933444">"Yuklanmalar"</string>
-    <string name="channel_description_downloads" msgid="8751992699855833481">"Yakunlangan yoki bekor qilingan yuklanmalarni aks etuvchi bildirishnomalar"</string>
+    <string name="channel_description_downloads" msgid="8751992699855833481">"Yakunlangan yoki bekor qilingan yuklanmalarni aks ettiruvchi bildirishnomalar"</string>
     <string name="channel_name_download_progress" msgid="6805362260479605374">"Yuklanma jarayoni"</string>
-    <string name="channel_description_download_progress" msgid="5788105841492070647">"Fayl yuklanmalari jarayonini aks etuvchi bildirishnomalar"</string>
+    <string name="channel_description_download_progress" msgid="5788105841492070647">"Fayl yuklanmalari jarayonini aks ettiruvchi bildirishnomalar"</string>
 </resources>

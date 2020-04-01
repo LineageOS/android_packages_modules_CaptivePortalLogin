@@ -29,6 +29,6 @@
     <string name="error_downloading_paramfile" msgid="2431082160412515409">"Imeshindwa kupakua %1$s"</string>
     <string name="channel_name_downloads" msgid="8446786286617933444">"Vipakuliwa"</string>
     <string name="channel_description_downloads" msgid="8751992699855833481">"Arifa zinazoonyesha upakuaji uliokamilika au ulioghairiwa"</string>
-    <string name="channel_name_download_progress" msgid="6805362260479605374">"Hatua ya upakuaji"</string>
-    <string name="channel_description_download_progress" msgid="5788105841492070647">"Arifa zinazooonyesha hatua za kupakua faili"</string>
+    <string name="channel_name_download_progress" msgid="6805362260479605374">"Upakuaji unavyoendelea"</string>
+    <string name="channel_description_download_progress" msgid="5788105841492070647">"Arifa zinazooonyesha upakuaji faili unavyoendelea"</string>
 </resources>
