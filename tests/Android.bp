@@ -23,11 +23,13 @@ android_test {
 
     static_libs: [
         "androidx.test.rules",
+        "androidx.test.uiautomator",
         "mockito-target-extended-minus-junit4",
         "CaptivePortalLoginTestLib",
         "android.test.runner-minus-junit",
         "androidx.test.core",
         "androidx.test.ext.junit",
+        "kotlin-test",
     ],
     libs: [
         "android.test.runner",

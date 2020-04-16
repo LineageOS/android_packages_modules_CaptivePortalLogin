@@ -22,8 +22,25 @@
 
     <application android:debuggable="true">
         <uses-library android:name="android.test.runner" />
+        <provider android:name="androidx.core.content.FileProvider"
+                  android:authorities="com.android.captiveportallogin.tests.fileprovider"
+                  android:exported="false"
+                  android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
         <activity
-            android:name="com.android.captiveportallogin.CaptivePortalLoginActivityTest$InstrumentedCaptivePortalLoginActivity" >
+            android:name="com.android.captiveportallogin.CaptivePortalLoginActivityTest$InstrumentedCaptivePortalLoginActivity"/>
+        <activity android:name="com.android.captiveportallogin.DownloadServiceTest$RequestDismissKeyguardActivity"/>
+        <activity android:name="com.android.captiveportallogin.DownloadServiceTest$OpenTextFileActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="content" />
+                <data android:mimeType="*/*" />
+                <data android:pathPattern=".*\\.testtxtfile" />
+            </intent-filter>
         </activity>
     </application>
     <instrumentation android:name="androidx.test.runner.AndroidJUnitRunner"
