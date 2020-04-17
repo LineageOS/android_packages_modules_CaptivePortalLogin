@@ -48,6 +48,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemProperties;
 import android.provider.DeviceConfig;
+import android.provider.MediaStore;
 import android.text.TextUtils;
 import android.util.ArrayMap;
 import android.util.Log;
@@ -58,7 +59,9 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.webkit.CookieManager;
+import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
+import android.webkit.URLUtil;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
@@ -68,6 +71,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.annotation.GuardedBy;
 import androidx.annotation.NonNull;
 import androidx.annotation.StringRes;
 import androidx.annotation.VisibleForTesting;
@@ -81,6 +85,7 @@ import java.lang.reflect.Method;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLConnection;
 import java.util.Objects;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicBoolean;
@@ -121,6 +126,23 @@ public class CaptivePortalLoginActivity extends Activity {
     private SwipeRefreshLayout mSwipeRefreshLayout;
     // Ensures that done() happens once exactly, handling concurrent callers with atomic operations.
     private final AtomicBoolean isDone = new AtomicBoolean(false);
+
+    // When starting downloads a file is created via startActivityForResult(ACTION_CREATE_DOCUMENT).
+    // This array keeps the download request until the activity result is received. It is keyed by
+    // requestCode sent in startActivityForResult.
+    @GuardedBy("mDownloadRequests")
+    private final SparseArray<DownloadRequest> mDownloadRequests = new SparseArray<>();
+    @GuardedBy("mDownloadRequests")
+    private int mNextDownloadRequestId = 1;
+
+    private static final class DownloadRequest {
+        final String mUrl;
+        final String mFilename;
+        DownloadRequest(String url, String filename) {
+            mUrl = url;
+            mFilename = filename;
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,6 +223,7 @@ public class CaptivePortalLoginActivity extends Activity {
         mWebViewClient = new MyWebViewClient();
         webview.setWebViewClient(mWebViewClient);
         webview.setWebChromeClient(new MyWebChromeClient());
+        webview.setDownloadListener(new PortalDownloadListener());
         // Start initial page load so WebView finishes loading proxy settings.
         // Actual load of mUrl is initiated by MyWebViewClient.
         webview.loadData("", "text/html", null);
@@ -356,6 +379,33 @@ public class CaptivePortalLoginActivity extends Activity {
             }
             startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
         }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode != RESULT_OK || data == null) return;
+
+        // Start download after receiving a created file to download to
+        final DownloadRequest pendingRequest;
+        synchronized (mDownloadRequests) {
+            pendingRequest = mDownloadRequests.get(requestCode);
+            if (pendingRequest == null) {
+                Log.e(TAG, "No pending download for request " + requestCode);
+                return;
+            }
+            mDownloadRequests.remove(requestCode);
+        }
+
+        final Uri fileUri = data.getData();
+        if (fileUri == null) {
+            Log.e(TAG, "No file received from download file creation result");
+            return;
+        }
+
+        final Intent downloadIntent = DownloadService.makeDownloadIntent(getApplicationContext(),
+                mNetwork, mUserAgent, pendingRequest.mUrl, pendingRequest.mFilename, fileUri);
+
+        startForegroundService(downloadIntent);
     }
 
     private URL getUrl() {
@@ -776,6 +826,48 @@ public class CaptivePortalLoginActivity extends Activity {
         @Override
         public void onProgressChanged(WebView view, int newProgress) {
             getProgressBar().setProgress(newProgress);
+        }
+    }
+
+    private class PortalDownloadListener implements DownloadListener {
+        @Override
+        public void onDownloadStart(String url, String userAgent, String contentDisposition,
+                String mimetype, long contentLength) {
+            final String normalizedType = Intent.normalizeMimeType(mimetype);
+            final String displayName = URLUtil.guessFileName(url, contentDisposition,
+                    normalizedType);
+
+            String guessedMimetype = normalizedType;
+            if (TextUtils.isEmpty(guessedMimetype)) {
+                guessedMimetype = URLConnection.guessContentTypeFromName(displayName);
+            }
+            if (TextUtils.isEmpty(guessedMimetype)) {
+                guessedMimetype = MediaStore.Downloads.CONTENT_TYPE;
+            }
+
+            Log.d(TAG, String.format("Starting download for %s, type %s with display name %s",
+                    url, guessedMimetype, displayName));
+
+            final Intent createFileIntent = DownloadService.makeCreateFileIntent(
+                    guessedMimetype, displayName);
+
+            final int requestId;
+            // WebView should call onDownloadStart from the UI thread, but to be extra-safe as
+            // that is not documented behavior, access the download requests array with a lock.
+            synchronized (mDownloadRequests) {
+                requestId = mNextDownloadRequestId++;
+                mDownloadRequests.put(requestId, new DownloadRequest(url, displayName));
+            }
+
+            try {
+                startActivityForResult(createFileIntent, requestId);
+            } catch (ActivityNotFoundException e) {
+                // This could happen in theory if the device has no stock document provider (which
+                // Android normally requires), or if the user disabled all of them, but
+                // should be rare; the download cannot be started as no writeable file can be
+                // created.
+                Log.e(TAG, "No document provider found to create download file", e);
+            }
         }
     }
 
