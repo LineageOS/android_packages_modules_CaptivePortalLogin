@@ -417,7 +417,8 @@ public class DownloadService extends Service {
     private Notification makeDoneNotification(int taskId, @NonNull String displayName,
             @NonNull Uri outFile) {
         final Intent intent = new Intent(Intent.ACTION_VIEW)
-                .setFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                .addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION)
                 .setData(outFile)
                 .setIdentifier(String.valueOf(taskId));
 
