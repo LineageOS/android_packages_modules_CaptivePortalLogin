@@ -26,7 +26,7 @@
     <string name="page_info" msgid="46593086046896385">"Бет туралы ақпарат"</string>
     <string name="downloading_paramfile" msgid="685182551665849043">"%1$s жүктеп алынып жатыр."</string>
     <string name="download_completed" msgid="5430865338124330584">"Жүктеп алынды."</string>
-    <string name="error_downloading_paramfile" msgid="2431082160412515409">"%1$s жүктелмеді."</string>
+    <string name="error_downloading_paramfile" msgid="2431082160412515409">"%1$s жүктеп алынбады."</string>
     <string name="channel_name_downloads" msgid="8446786286617933444">"Жүктеп алу хабарландырулары"</string>
     <string name="channel_description_downloads" msgid="8751992699855833481">"Аяқталған не бас тартылған жүктеп алу процестерін көрсететін хабарландырулар"</string>
     <string name="channel_name_download_progress" msgid="6805362260479605374">"Жүктеп алу барысы"</string>
