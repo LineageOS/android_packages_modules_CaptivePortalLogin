@@ -20,6 +20,9 @@
     package="com.android.captiveportallogin.tests">
     <uses-sdk android:minSdkVersion="29" android:targetSdkVersion="29" />
 
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.MANAGE_TEST_NETWORKS" />
+
     <application android:debuggable="true">
         <uses-library android:name="android.test.runner" />
         <provider android:name="androidx.core.content.FileProvider"
@@ -42,6 +45,7 @@
                 <data android:pathPattern=".*\\.testtxtfile" />
             </intent-filter>
         </activity>
+        <activity android:name="com.android.captiveportallogin.RequestDismissKeyguardActivity" />
     </application>
     <instrumentation android:name="androidx.test.runner.AndroidJUnitRunner"
         android:targetPackage="com.android.captiveportallogin.tests"
