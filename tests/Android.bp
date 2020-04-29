@@ -28,8 +28,13 @@ android_test {
         "CaptivePortalLoginTestLib",
         "android.test.runner-minus-junit",
         "androidx.test.core",
+        "androidx.test.espresso.intents",
+        "androidx.test.espresso.web",
         "androidx.test.ext.junit",
+        "androidx.test.uiautomator",
         "kotlin-test",
+        "libnanohttpd",
+        "net-tests-utils",
     ],
     libs: [
         "android.test.runner",
