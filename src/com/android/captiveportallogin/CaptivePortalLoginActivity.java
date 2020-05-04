@@ -42,6 +42,7 @@ import android.os.Bundle;
 import android.os.SystemProperties;
 import android.text.TextUtils;
 import android.util.ArrayMap;
+import android.util.ArraySet;
 import android.util.Log;
 import android.util.SparseArray;
 import android.util.TypedValue;
@@ -53,6 +54,7 @@ import android.webkit.CookieManager;
 import android.webkit.SslErrorHandler;
 import android.webkit.WebChromeClient;
 import android.webkit.WebResourceRequest;
+import android.webkit.WebResourceResponse;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -410,7 +412,7 @@ public class CaptivePortalLoginActivity extends Activity {
                     TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 1,
                     getResources().getDisplayMetrics());
         private int mPagesLoaded;
-        private String mMainFrameUrl;
+        private final ArraySet<String> mMainFrameUrls = new ArraySet<>();
 
         // If we haven't finished cleaning up the history, don't allow going back.
         public boolean allowBack() {
@@ -482,28 +484,38 @@ public class CaptivePortalLoginActivity extends Activity {
         // Check if webview is trying to load the main frame and record its url.
         @Override
         public boolean shouldOverrideUrlLoading(WebView view, WebResourceRequest request) {
+            final String url = request.getUrl().toString();
             if (request.isForMainFrame()) {
-                mMainFrameUrl = request.getUrl().toString();
+                mMainFrameUrls.add(url);
             }
             // Be careful that two shouldOverrideUrlLoading methods are overridden, but
             // shouldOverrideUrlLoading(WebView view, String url) was deprecated in API level 24.
             // TODO: delete deprecated one ??
-            return shouldOverrideUrlLoading(view, mMainFrameUrl);
+            return shouldOverrideUrlLoading(view, url);
+        }
+
+        // Record the initial main frame url. This is only called for the initial resource URL, not
+        // any subsequent redirect URLs.
+        @Override
+        public WebResourceResponse shouldInterceptRequest(WebView view,
+                WebResourceRequest request) {
+            if (request.isForMainFrame()) {
+                mMainFrameUrls.add(request.getUrl().toString());
+            }
+            return null;
         }
 
         // A web page consisting of a large broken lock icon to indicate SSL failure.
-
         @Override
         public void onReceivedSslError(WebView view, SslErrorHandler handler, SslError error) {
-            final URL errorUrl = makeURL(error.getUrl());
-            final URL mainFrameUrl = makeURL(mMainFrameUrl);
+            final String strErrorUrl = error.getUrl();
+            final URL errorUrl = makeURL(strErrorUrl);
             Log.d(TAG, String.format("SSL error: %s, url: %s, certificate: %s",
                     sslErrorName(error), sanitizeURL(errorUrl), error.getCertificate()));
             if (errorUrl == null
-                    // Ignore SSL errors from resources by comparing the main frame url with SSL
-                    // error url.
-                    || !errorUrl.equals(mainFrameUrl)) {
-                Log.d(TAG, "onReceivedSslError: mMainFrameUrl = " + mMainFrameUrl);
+                    // Ignore SSL errors coming from subresources by comparing the
+                    // main frame urls with SSL error url.
+                    || (!mMainFrameUrls.contains(strErrorUrl))) {
                 handler.cancel();
                 return;
             }
