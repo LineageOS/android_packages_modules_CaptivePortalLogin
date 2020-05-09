@@ -19,8 +19,8 @@
     <string name="ssl_error_unknown" msgid="3751419329218834886">"Erro de certificado desconhecido."</string>
     <string name="ssl_security_warning_title" msgid="7912335118289529802">"Aviso de segurança"</string>
     <string name="ssl_error_view_certificate" msgid="3447891108083278449">"Ver certificado"</string>
-    <string name="custom_scheme_warning" msgid="1809266150423969087">"A rede à qual pretende aceder está a solicitar a abertura de outra aplicação."</string>
-    <string name="custom_scheme_example" msgid="7126568152528588592">"Por exemplo, a página de início de sessão pode exigir uma aplicação específica para autenticação."</string>
+    <string name="custom_scheme_warning" msgid="1809266150423969087">"A rede à qual pretende aceder está a solicitar a abertura de outra app."</string>
+    <string name="custom_scheme_example" msgid="7126568152528588592">"Por exemplo, a página de início de sessão pode exigir uma app específica para autenticação."</string>
     <string name="ok" msgid="6584612582120777209">"OK"</string>
     <string name="page_info_address" msgid="1290683284404217554">"Endereço:"</string>
     <string name="page_info" msgid="46593086046896385">"Informações da página"</string>
