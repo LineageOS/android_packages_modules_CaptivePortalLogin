@@ -38,6 +38,7 @@ import android.util.Log;
 import androidx.annotation.GuardedBy;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.VisibleForTesting;
 
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -58,11 +59,17 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class DownloadService extends Service {
     private static final String TAG = DownloadService.class.getSimpleName();
-    private static final String ARG_NETWORK = "network";
-    private static final String ARG_USERAGENT = "useragent";
-    private static final String ARG_URL = "url";
-    private static final String ARG_DISPLAY_NAME = "displayname";
-    private static final String ARG_OUTFILE = "outfile";
+
+    @VisibleForTesting
+    static final String ARG_NETWORK = "network";
+    @VisibleForTesting
+    static final String ARG_USERAGENT = "useragent";
+    @VisibleForTesting
+    static final String ARG_URL = "url";
+    @VisibleForTesting
+    static final String ARG_DISPLAY_NAME = "displayname";
+    @VisibleForTesting
+    static final String ARG_OUTFILE = "outfile";
 
     private static final String ARG_CANCEL = "cancel";
 
