@@ -16,14 +16,18 @@
 
 package com.android.captiveportallogin;
 
+import static android.app.Activity.RESULT_OK;
+import static android.content.Intent.ACTION_CREATE_DOCUMENT;
 import static android.net.ConnectivityManager.ACTION_CAPTIVE_PORTAL_SIGN_IN;
 import static android.net.ConnectivityManager.EXTRA_CAPTIVE_PORTAL;
 import static android.net.ConnectivityManager.EXTRA_CAPTIVE_PORTAL_URL;
+import static android.net.ConnectivityManager.EXTRA_CAPTIVE_PORTAL_USER_AGENT;
 import static android.net.ConnectivityManager.EXTRA_NETWORK;
 import static android.net.NetworkCapabilities.NET_CAPABILITY_VALIDATED;
 import static android.provider.DeviceConfig.NAMESPACE_CONNECTIVITY;
 
 import static androidx.test.espresso.intent.Intents.intending;
+import static androidx.test.espresso.intent.matcher.IntentMatchers.hasAction;
 import static androidx.test.espresso.intent.matcher.IntentMatchers.isInternal;
 import static androidx.test.espresso.web.sugar.Web.onWebView;
 import static androidx.test.espresso.web.webdriver.DriverAtoms.findElement;
@@ -32,6 +36,7 @@ import static androidx.test.platform.app.InstrumentationRegistry.getInstrumentat
 
 import static com.android.dx.mockito.inline.extended.ExtendedMockito.doReturn;
 import static com.android.dx.mockito.inline.extended.ExtendedMockito.mockitoSession;
+import static com.android.dx.mockito.inline.extended.ExtendedMockito.spyOn;
 import static com.android.testutils.TestNetworkTrackerKt.initTestNetwork;
 
 import static junit.framework.Assert.assertEquals;
@@ -40,14 +45,16 @@ import static org.hamcrest.CoreMatchers.not;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.ArgumentMatchers.argThat;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
+import static org.mockito.Mockito.verify;
 
-import android.app.Activity;
 import android.app.Instrumentation.ActivityResult;
 import android.app.KeyguardManager;
 import android.app.admin.DevicePolicyManager;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.net.CaptivePortal;
@@ -76,13 +83,16 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
+import org.mockito.ArgumentCaptor;
 import org.mockito.MockitoAnnotations;
 import org.mockito.MockitoSession;
 import org.mockito.quality.Strictness;
 
 import java.io.IOException;
 import java.net.ServerSocket;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.function.BooleanSupplier;
 
 import fi.iki.elonen.NanoHTTPD;
@@ -96,6 +106,7 @@ public class CaptivePortalLoginActivityTest {
     private static final long TEST_TIMEOUT_MS = 10_000L;
     private static final LinkAddress TEST_LINKADDR = new LinkAddress(
             InetAddresses.parseNumericAddress("2001:db8::8"), 64);
+    private static final String TEST_USERAGENT = "Test/42.0 Unit-test";
     private CaptivePortalLoginActivity mActivity;
     private MockitoSession mSession;
     private Network mNetwork = new Network(TEST_NETID);
@@ -185,11 +196,10 @@ public class CaptivePortalLoginActivityTest {
                 .strictness(Strictness.WARN)
                 .startMocking();
         setDismissPortalInValidatedNetwork(true);
-        // Use a real (but test) network for the application. The application will bind its process
-        // to the given network. Using a mock network object would not allow loading a portal from
-        // a real server, even from localhost, while using an actual network (even on a tun
-        // interface) allows the phone to create a test server on localhost and have WebView open
-        // the portal on it.
+        // Use a real (but test) network for the application. The application will pass this
+        // network to ConnectivityManager#bindProcessToNetwork, so it needs to be a real, existing
+        // network on the device but otherwise has no functional use at all. The http server set up
+        // by this test will run on the loopback interface and will not use this test network.
         mTestNetworkTracker = initTestNetwork(
                 getInstrumentation().getContext(), TEST_LINKADDR, TEST_TIMEOUT_MS);
         mNetwork = mTestNetworkTracker.getNetwork();
@@ -214,6 +224,7 @@ public class CaptivePortalLoginActivityTest {
             new Intent(ACTION_CAPTIVE_PORTAL_SIGN_IN)
                 .putExtra(EXTRA_CAPTIVE_PORTAL_URL, url)
                 .putExtra(EXTRA_NETWORK, mNetwork)
+                .putExtra(EXTRA_CAPTIVE_PORTAL_USER_AGENT, TEST_USERAGENT)
                 .putExtra(EXTRA_CAPTIVE_PORTAL, new MockCaptivePortal())
         );
         // Verify activity created successfully.
@@ -371,7 +382,7 @@ public class CaptivePortalLoginActivityTest {
         ActivityScenario.launch(RequestDismissKeyguardActivity.class);
         initActivity(server.makeUrl(TEST_URL_QUERY));
         // Mock all external intents
-        intending(not(isInternal())).respondWith(new ActivityResult(Activity.RESULT_OK, null));
+        intending(not(isInternal())).respondWith(new ActivityResult(RESULT_OK, null));
 
         onWebView().withElement(findElement(Locator.ID, "tst_link")).perform(webClick());
         getInstrumentation().waitForIdleSync();
@@ -421,6 +432,70 @@ public class CaptivePortalLoginActivityTest {
         server.stop();
     }
 
+    @Test
+    public void testDownload() throws Exception {
+        // Setup the server with a single link on the portal page, leading to a download
+        final HttpServer server = new HttpServer();
+        final String linkIdDownload = "download";
+        final String downloadQuery = "dl";
+        final String filename = "testfile.png";
+        final String mimetype = "image/png";
+        server.setResponseBody(TEST_URL_QUERY,
+                "<a id='" + linkIdDownload + "' href='?" + downloadQuery + "'>Download</a>");
+        server.setResponse(downloadQuery, "This is a test file", mimetype, Collections.singletonMap(
+                "Content-Disposition", "attachment; filename=\"" + filename + "\""));
+        server.start();
+
+        ActivityScenario.launch(RequestDismissKeyguardActivity.class);
+        initActivity(server.makeUrl(TEST_URL_QUERY));
+
+        // Create a mock file to be returned when mocking the file chooser
+        final Context ctx = mActivity.getApplicationContext();
+        final Intent mockFileResponse = new Intent();
+        final Uri mockFile = Uri.parse("content://mockdata");
+        mockFileResponse.setData(mockFile);
+
+        // Mock file chooser and DownloadService intents
+        intending(hasAction(ACTION_CREATE_DOCUMENT)).respondWith(
+                new ActivityResult(RESULT_OK, mockFileResponse));
+        // mockito-intents does not support mocking service starts (only startActivity), and the
+        // activity is created by the framework from the activity start intent. Use extended mockito
+        // to inject a mock on startForegroundService.
+        spyOn(mActivity);
+        final ComponentName downloadComponent = new ComponentName(ctx, DownloadService.class);
+        doReturn(downloadComponent).when(mActivity).startForegroundService(argThat(intent ->
+                downloadComponent.equals(intent.getComponent())));
+        // No intent fired yet
+        assertEquals(0, Intents.getIntents().size());
+
+        onWebView().withElement(findElement(Locator.ID, linkIdDownload))
+                .perform(webClick());
+
+        // The create file intent should be fired when the download starts
+        assertTrue("Create file intent not received within timeout",
+                isEventually(() -> Intents.getIntents().size() == 1, TEST_TIMEOUT_MS));
+
+        final Intent fileIntent = Intents.getIntents().get(0);
+        assertEquals(ACTION_CREATE_DOCUMENT, fileIntent.getAction());
+        assertEquals(mimetype, fileIntent.getType());
+        assertEquals(filename, fileIntent.getStringExtra(Intent.EXTRA_TITLE));
+
+        // The download intent should be fired after the create file result is received
+        final ArgumentCaptor<Intent> intentCaptor = ArgumentCaptor.forClass(Intent.class);
+        verify(mActivity).startForegroundService(intentCaptor.capture());
+        final Intent dlIntent = intentCaptor.getValue();
+
+        assertEquals(downloadComponent, dlIntent.getComponent());
+        assertEquals(mNetwork, dlIntent.getParcelableExtra(DownloadService.ARG_NETWORK));
+        assertEquals(TEST_USERAGENT, dlIntent.getStringExtra(DownloadService.ARG_USERAGENT));
+        final String expectedUrl = server.makeUrl(downloadQuery);
+        assertEquals(expectedUrl, dlIntent.getStringExtra(DownloadService.ARG_URL));
+        assertEquals(filename, dlIntent.getStringExtra(DownloadService.ARG_DISPLAY_NAME));
+        assertEquals(mockFile, dlIntent.getParcelableExtra(DownloadService.ARG_OUTFILE));
+
+        server.stop();
+    }
+
     private static boolean isEventually(BooleanSupplier condition, long timeout)
             throws InterruptedException {
         final long start = System.currentTimeMillis();
@@ -435,7 +510,19 @@ public class CaptivePortalLoginActivityTest {
     private static class HttpServer extends NanoHTTPD {
         private final ServerSocket mSocket;
         // Responses per URL query
-        private final HashMap<String, String> mResponseBodies = new HashMap<>();
+        private final HashMap<String, MockResponse> mResponses = new HashMap<>();
+
+        private static final class MockResponse {
+            private final String mBody;
+            private final String mMimetype;
+            private final Map<String, String> mHeaders;
+
+            MockResponse(String body, String mimetype, Map<String, String> headers) {
+                this.mBody = body;
+                this.mMimetype = mimetype;
+                this.mHeaders = Collections.unmodifiableMap(new HashMap<>(headers));
+            }
+        }
 
         HttpServer() throws IOException {
             this(new ServerSocket());
@@ -456,28 +543,40 @@ public class CaptivePortalLoginActivityTest {
             return new Uri.Builder()
                     .scheme("http")
                     .encodedAuthority("localhost:" + mSocket.getLocalPort())
+                    // Explicitly specify an empty path to match the format of URLs returned by
+                    // WebView (for example in onDownloadStart)
+                    .path("/")
                     .query(query)
                     .build()
                     .toString();
         }
 
         private void setResponseBody(String query, String body) {
-            mResponseBodies.put(query, body);
+            setResponse(query, body, NanoHTTPD.MIME_HTML, Collections.emptyMap());
+        }
+
+        private void setResponse(String query, String body, String mimetype,
+                Map<String, String> headers) {
+            mResponses.put(query, new MockResponse(body, mimetype, headers));
         }
 
         @Override
         public Response serve(IHTTPSession session) {
-            final String body = mResponseBodies.get(session.getQueryParameterString());
-            if (body == null) {
+            final MockResponse mockResponse = mResponses.get(session.getQueryParameterString());
+            if (mockResponse == null) {
                 // Default response is a 404
                 return super.serve(session);
             }
 
-            return newFixedLengthResponse("<!doctype html>"
+            final Response response = newFixedLengthResponse(Response.Status.OK,
+                    mockResponse.mMimetype,
+                    "<!doctype html>"
                     + "<html>"
                     + "<head><title>Test portal</title></head>"
-                    + "<body>" + body + "</body>"
+                    + "<body>" + mockResponse.mBody + "</body>"
                     + "</html>");
+            mockResponse.mHeaders.forEach(response::addHeader);
+            return response;
         }
     }
 }
