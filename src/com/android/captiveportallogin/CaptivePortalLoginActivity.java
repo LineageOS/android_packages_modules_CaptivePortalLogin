@@ -165,7 +165,7 @@ public class CaptivePortalLoginActivity extends Activity {
             return;
         }
         if (DBG) {
-            Log.d(TAG, String.format("onCreate for %s", mUrl.toString()));
+            Log.d(TAG, String.format("onCreate for %s", mUrl));
         }
 
         final String spec = getIntent().getStringExtra(EXTRA_CAPTIVE_PORTAL_PROBE_SPEC);
@@ -294,7 +294,7 @@ public class CaptivePortalLoginActivity extends Activity {
             return;
         }
         if (DBG) {
-            Log.d(TAG, String.format("Result %s for %s", result.name(), mUrl.toString()));
+            Log.d(TAG, String.format("Result %s for %s", result.name(), mUrl));
         }
         logMetricsEvent(result.metricsEvent);
         switch (result) {
@@ -345,7 +345,7 @@ public class CaptivePortalLoginActivity extends Activity {
             return super.onOptionsItemSelected(item);
         }
         if (DBG) {
-            Log.d(TAG, String.format("onOptionsItemSelect %s for %s", action, mUrl.toString()));
+            Log.d(TAG, String.format("onOptionsItemSelect %s for %s", action, mUrl));
         }
         done(result);
         return true;
