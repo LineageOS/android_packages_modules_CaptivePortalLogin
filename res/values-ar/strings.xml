@@ -5,9 +5,7 @@
     <string name="action_use_network" msgid="8239049683838236305">"استخدام هذه الشبكة كما هي"</string>
     <string name="action_do_not_use_network" msgid="6324702363356892396">"عدم استخدام هذه الشبكة"</string>
     <string name="action_bar_label" msgid="2023171629563754892">"تسجيل الدخول إلى الشبكة"</string>
-    <!-- String.format failed for translation -->
-    <!-- no translation found for action_bar_title (2566334512545554724) -->
-    <skip />
+    <string name="action_bar_title" msgid="2566334512545554724">"‏سجّل الدخول إلى %1$s"</string>
     <string name="ssl_error_warning" msgid="494203210316238046">"الشبكة التي تحاول الانضمام إليها بها مشاكل أمنية."</string>
     <string name="ssl_error_example" msgid="4574594291839092653">"على سبيل المثال، قد لا تنتمي صفحة تسجيل الدخول إلى المنظمة المعروضة."</string>
     <string name="ssl_error_continue" msgid="1167243324376748637">"المتابعة على أي حال عبر المتصفح"</string>
