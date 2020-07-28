@@ -43,7 +43,6 @@ import org.mockito.Mockito.verify
 import java.io.ByteArrayInputStream
 import java.io.File
 import java.io.FileInputStream
-import java.io.IOException
 import java.io.InputStream
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
@@ -78,7 +77,8 @@ class DownloadServiceTest {
     private val device by lazy { UiDevice.getInstance(getInstrumentation()) }
 
     // Test network that can be parceled in intents while mocking the connection
-    class TestNetwork : Network(43) {
+    class TestNetwork(private val privateDnsBypass: Boolean = false)
+        : Network(43, privateDnsBypass) {
         companion object {
             // Subclasses of parcelable classes need to define a CREATOR field of their own (which
             // hides the one of the parent class), otherwise the CREATOR field of the parent class
@@ -100,8 +100,22 @@ class DownloadServiceTest {
             internal var sTestConnection: HttpURLConnection? = null
         }
 
+        override fun getPrivateDnsBypassingCopy(): Network {
+            // Note that the privateDnsBypass flag is not kept when parceling/unparceling: this
+            // mirrors the real behavior of that flag in Network.
+            // The test relies on this to verify that after setting privateDnsBypass to true,
+            // the TestNetwork is not parceled / unparceled, which would clear the flag both
+            // for TestNetwork or for a real Network and be a bug.
+            return TestNetwork(privateDnsBypass = true)
+        }
+
         override fun openConnection(url: URL?): URLConnection {
-            return sTestConnection ?: throw IOException("Mock URLConnection not initialized")
+            // Verify that this network was created with privateDnsBypass = true, and was not
+            // parceled / unparceled afterwards (which would have cleared the flag).
+            assertTrue(privateDnsBypass,
+                    "Captive portal downloads should be done on a network bypassing private DNS")
+            return sTestConnection ?: throw IllegalStateException(
+                    "Mock URLConnection not initialized")
         }
     }
 
