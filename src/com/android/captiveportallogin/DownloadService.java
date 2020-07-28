@@ -216,8 +216,8 @@ public class DownloadService extends Service {
         }
 
         synchronized (mQueue) {
-            final DownloadTask task = new DownloadTask(mNextDownloadId.getAndIncrement(), network,
-                    userAgent, url, filename, outFile, this);
+            final DownloadTask task = new DownloadTask(mNextDownloadId.getAndIncrement(),
+                    network.getPrivateDnsBypassingCopy(), userAgent, url, filename, outFile, this);
             mQueue.add(task);
             if (!mProcessing) {
                 startForeground(NOTE_DOWNLOAD_PROGRESS, makeProgressNotification(task,
