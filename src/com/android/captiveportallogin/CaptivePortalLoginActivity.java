@@ -59,6 +59,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.webkit.CookieManager;
 import android.webkit.DownloadListener;
 import android.webkit.SslErrorHandler;
@@ -359,6 +360,9 @@ public class CaptivePortalLoginActivity extends Activity {
             webview.stopLoading();
             webview.setWebViewClient(null);
             webview.setWebChromeClient(null);
+            // According to the doc of WebView#destroy(), webview should be removed from the view
+            // system before calling the WebView#destroy().
+            ((ViewGroup) webview.getParent()).removeView(webview);
             webview.destroy();
         }
         if (mNetworkCallback != null) {
