@@ -151,6 +151,13 @@ public class CaptivePortalLoginActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCaptivePortal = getIntent().getParcelableExtra(ConnectivityManager.EXTRA_CAPTIVE_PORTAL);
+        // Null CaptivePortal is unexpected. The following flow will need to access mCaptivePortal
+        // to communicate with system. Thus, finish the activity.
+        if (mCaptivePortal == null) {
+            Log.e(TAG, "Unexpected null CaptivePortal");
+            finish();
+            return;
+        }
         logMetricsEvent(MetricsEvent.ACTION_CAPTIVE_PORTAL_LOGIN_ACTIVITY);
         mCm = getSystemService(ConnectivityManager.class);
         mDpm = getSystemService(DevicePolicyManager.class);
