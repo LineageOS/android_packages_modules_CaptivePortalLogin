@@ -18,7 +18,7 @@
     <string name="ssl_error_invalid" msgid="5977636322438777389">"Dit certificaat is ongeldig."</string>
     <string name="ssl_error_unknown" msgid="3751419329218834886">"Onbekende certificaatfout."</string>
     <string name="ssl_security_warning_title" msgid="7912335118289529802">"Beveiligingswaarschuwing"</string>
-    <string name="ssl_error_view_certificate" msgid="3447891108083278449">"Certificaat weergeven"</string>
+    <string name="ssl_error_view_certificate" msgid="3447891108083278449">"Certificaat bekijken"</string>
     <string name="custom_scheme_warning" msgid="1809266150423969087">"Het netwerk waarmee je verbinding probeert te maken, wil een andere app openen."</string>
     <string name="custom_scheme_example" msgid="7126568152528588592">"Zo kan de inlogpagina een specifieke app vereisen voor verificatie"</string>
     <string name="ok" msgid="6584612582120777209">"OK"</string>
