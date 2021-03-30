@@ -15,7 +15,7 @@
     <string name="ssl_error_expired" msgid="9098912817349951268">"פג תוקפו של אישור זה."</string>
     <string name="ssl_error_not_yet_valid" msgid="4625726491067509546">"האישור הזה אינו חוקי עדיין."</string>
     <string name="ssl_error_date_invalid" msgid="8113750623774526439">"לאישור זה יש תאריך בלתי חוקי."</string>
-    <string name="ssl_error_invalid" msgid="5977636322438777389">"אישור זה אינו חוקי."</string>
+    <string name="ssl_error_invalid" msgid="5977636322438777389">"האישור הזה לא חוקי."</string>
     <string name="ssl_error_unknown" msgid="3751419329218834886">"שגיאת אישור לא ידועה."</string>
     <string name="ssl_security_warning_title" msgid="7912335118289529802">"אזהרת אבטחה"</string>
     <string name="ssl_error_view_certificate" msgid="3447891108083278449">"הצגת אישור"</string>
@@ -28,7 +28,7 @@
     <string name="download_completed" msgid="5430865338124330584">"ההורדה הושלמה"</string>
     <string name="error_downloading_paramfile" msgid="2431082160412515409">"‏לא ניתן היה להוריד את %1$s"</string>
     <string name="channel_name_downloads" msgid="8446786286617933444">"הורדות"</string>
-    <string name="channel_description_downloads" msgid="8751992699855833481">"התראות שמוצגות בהן הורדות שהושלמו או שבוטלו"</string>
+    <string name="channel_description_downloads" msgid="8751992699855833481">"התראות שמוצגות בהן הורדות שהושלמו או בוטלו"</string>
     <string name="channel_name_download_progress" msgid="6805362260479605374">"התקדמות ההורדה"</string>
     <string name="channel_description_download_progress" msgid="5788105841492070647">"התראות שמוצגת בהן ההתקדמות של הורדות קבצים"</string>
 </resources>
