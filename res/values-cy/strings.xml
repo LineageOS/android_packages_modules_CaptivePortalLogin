@@ -5,11 +5,11 @@
     <string name="action_do_not_use_network">Peidio â defnyddio\'r rhwydwaith hwn</string>
     <string name="action_bar_label">Mewngofnodi i\'r rhwydwaith</string>
     <string name="action_bar_title">Mewngofnodi i %1$s</string>
-    <string name="ssl_error_warning">Mae yna broblemau diogelwch gyda’r rhwydwaith rwyt yn ceisio ymuno â fo.</string>
-    <string name="ssl_error_example">Er enghraifft, efallai nad yw’r dudalen mewngofnodi yn perthyn i’r mudiad a ddangosir.</string>
+    <string name="ssl_error_warning">Mae yna broblemau diogelwch gyda&#8217;r rhwydwaith rwyt yn ceisio ymuno â fo.</string>
+    <string name="ssl_error_example">Er enghraifft, efallai nad yw&#8217;r dudalen mewngofnodi yn perthyn i&#8217;r mudiad a ddangosir.</string>
     <string name="no_bypass_error_vpnwarning">Hefyd, nid yw\'n bosib osgoi\'r gwall hwn am fod y ddyfais ar hyn o bryd yn rhedeg VPN.</string>
-    <string name="error_continue_via_browser">Parhau trwy’r porwr beth bynnag</string>
-    <string name="ssl_error_untrusted">Dyw’r dystysgrif hon ddim oddi wrth awdurdod dibynadwy.</string>
+    <string name="error_continue_via_browser">Parhau trwy&#8217;r porwr beth bynnag</string>
+    <string name="ssl_error_untrusted">Dyw&#8217;r dystysgrif hon ddim oddi wrth awdurdod dibynadwy.</string>
     <string name="ssl_error_mismatch">Dyw enw\'r wefan ddim yr un fath a\'r enw ar y dystysgrif.</string>
     <string name="ssl_error_expired">Mae\'r dystysgrif wedi dod i ben.</string>
     <string name="ssl_error_not_yet_valid">Dyw\'r dystysgrif hon ddim yn ddilys eto.</string>
@@ -23,11 +23,18 @@
     <string name="ok">Iawn</string>
     <string name="page_info_address">Cyfeiriad:</string>
     <string name="page_info">Gwybodaeth tudalen</string>
+    <!-- Text shown in notification to indicate that a file (filename as parameter) is being downloaded -->
     <string name="downloading_paramfile">Yn lawrlwytho %1$s</string>
+    <!-- Text shown in notification to indicate that a download has completed successfully -->
     <string name="download_completed">Lawrlwytho wedi\'i gwblhau</string>
+    <!-- Text shown in notification to indicate that the download of a file (filename as parameter) has stopped with an error -->
     <string name="error_downloading_paramfile">Methwyd lawrlwytho %1$s</string>
+    <!-- Notification channel name (shown in settings) for download notifications (downloaded completed or error).  [CHAR LIMIT=40] -->
     <string name="channel_name_downloads">Wedi eu lawrlwytho</string>
+    <!-- Notification channel description (shown in settings) for download notifications (downloaded completed or error). -->
     <string name="channel_description_downloads">Hysbysiadau yn dangos llwythi wedi eu cwblhau neu ddiddymu</string>
+    <!-- Notification channel name (shown in settings) for notifications showing progress of current downloads. [CHAR LIMIT=40] -->
     <string name="channel_name_download_progress">Cynnydd lawrlwytho</string>
+    <!-- Notification channel description (shown in settings) for notifications showing progress of current downloads. -->
     <string name="channel_description_download_progress">Hysbysiadau yn dangos cynnydd llwytho ffeiliau i lawr</string>
 </resources>

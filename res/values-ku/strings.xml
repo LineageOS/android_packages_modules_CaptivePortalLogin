@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Text shown in notification to indicate that a file (filename as parameter) is being downloaded -->
+    <!-- Text shown in notification to indicate that a download has completed successfully -->
+    <!-- Text shown in notification to indicate that the download of a file (filename as parameter) has stopped with an error -->
+    <!-- Notification channel name (shown in settings) for download notifications (downloaded completed or error).  [CHAR LIMIT=40] -->
+    <!-- Notification channel description (shown in settings) for download notifications (downloaded completed or error). -->
+    <!-- Notification channel name (shown in settings) for notifications showing progress of current downloads. [CHAR LIMIT=40] -->
+    <!-- Notification channel description (shown in settings) for notifications showing progress of current downloads. -->
+</resources>

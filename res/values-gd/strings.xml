@@ -23,11 +23,18 @@
     <string name="ok">Ceart ma-thà</string>
     <string name="page_info_address">Seòladh:</string>
     <string name="page_info">Fiosrachadh na duilleige</string>
+    <!-- Text shown in notification to indicate that a file (filename as parameter) is being downloaded -->
     <string name="downloading_paramfile">A’ luchdadh a-nuas %1$s</string>
+    <!-- Text shown in notification to indicate that a download has completed successfully -->
     <string name="download_completed">Tha an luchdadh a-nuas deiseil</string>
+    <!-- Text shown in notification to indicate that the download of a file (filename as parameter) has stopped with an error -->
     <string name="error_downloading_paramfile">Cha b’ urrainn dhuinn %1$s a luchdadh a-nuas</string>
+    <!-- Notification channel name (shown in settings) for download notifications (downloaded completed or error).  [CHAR LIMIT=40] -->
     <string name="channel_name_downloads">Luchdaidhean a-nuas</string>
+    <!-- Notification channel description (shown in settings) for download notifications (downloaded completed or error). -->
     <string name="channel_description_downloads">Brathan a sheallas luchdaidhean a-nuas coileanta no air an sgur dhiubh</string>
+    <!-- Notification channel name (shown in settings) for notifications showing progress of current downloads. [CHAR LIMIT=40] -->
     <string name="channel_name_download_progress">Adhartas an luchdaidh a-nuas</string>
+    <!-- Notification channel description (shown in settings) for notifications showing progress of current downloads. -->
     <string name="channel_description_download_progress">Brathan a sheallas adhartas nam faidhlichean ’gan luchdadh a-nuas</string>
 </resources>
