@@ -27,7 +27,7 @@
     <string name="download_completed">Lawrlwytho wedi\'i gwblhau</string>
     <string name="error_downloading_paramfile">Methwyd lawrlwytho %1$s</string>
     <string name="channel_name_downloads">Wedi eu lawrlwytho</string>
-    <string name="channel_description_downloads">Hysbysiadau yn dangos llwythi wedi eu cwblhau neu ddiddymu</string>
+    <string name="channel_description_downloads">Hysbysiadau yn dangos llwythi wedi eu cwblhau neu diddymu</string>
     <string name="channel_name_download_progress">Cynnydd lawrlwytho</string>
     <string name="channel_description_download_progress">Hysbysiadau yn dangos cynnydd llwytho ffeiliau i lawr</string>
 </resources>
