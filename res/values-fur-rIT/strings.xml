@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AcèsPortâlSierât</string>
+    <string name="action_use_network">Dopre cheste rêt cussì cemût che e je</string>
+    <string name="action_do_not_use_network">No sta doprâ cheste rêt</string>
+    <string name="action_bar_label">Jentre te rêt</string>
+    <string name="action_bar_title">Jentre in %1$s</string>
+    <string name="ssl_error_warning">Tu stâs cirint di jentrâ suntune rêt che e à problemis di sigurece.</string>
+    <string name="ssl_error_example">Par esempli, al è pussibil che la pagjine di acès no sedi de organizazion mostrade.</string>
+    <string name="ssl_error_continue">Continue istès vie navigadôr</string>
+    <string name="ssl_error_untrusted">Chest certificât nol rive di une autoriât atendibile.</string>
+    <string name="ssl_error_mismatch">Il non dal sît nol corispuint al non sul certificât.</string>
+    <string name="ssl_error_expired">Chest certificât al è scjadût.</string>
+    <string name="ssl_error_not_yet_valid">Chest certificât nol è ancjemò valit.</string>
+    <string name="ssl_error_date_invalid">Chest certificât al à une date no valide.</string>
+    <string name="ssl_error_invalid">Chest certificât nol è valit.</string>
+    <string name="ssl_error_unknown">Erôr di certificât no cognossût.</string>
+    <string name="ssl_security_warning_title">Avîs di sigurece</string>
+    <string name="ssl_error_view_certificate">Visualize certificât</string>
+    <string name="ok">Va ben</string>
+    <string name="page_info_address">Direzion:</string>
+    <string name="page_info">Info pagjine</string>
+</resources>

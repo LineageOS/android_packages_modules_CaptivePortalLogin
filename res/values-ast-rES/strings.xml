@@ -1,4 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">CaptivePortalLogin</string>
+    <string name="action_use_network">Usar esta rede tal cual</string>
+    <string name="action_do_not_use_network">Nun usar esta rede</string>
+    <string name="action_bar_label">Aniciu de sesión na rede</string>
+    <string name="action_bar_title">Anicia la sesión en: %1$s</string>
+    <string name="ssl_error_warning">La rede a la que tentes de xunite tien problemes de seguranza.</string>
+    <string name="ssl_error_example">Por exemplu, ye posible que la páxina d\'aniciu de sesión nun perteneza a la organización amosada.</string>
+    <string name="ssl_error_continue">Siguir de toes toes pel restolador</string>
+    <string name="ssl_error_untrusted">Esti certificáu nun ye d\'una entidá d\'enfotu.</string>
+    <string name="ssl_error_mismatch">El nome del sitiu nun concasa col qu\'indica\'l certificáu.</string>
+    <string name="ssl_error_expired">Esti certificáu caducó.</string>
+    <string name="ssl_error_not_yet_valid">Esti certificáu entá nun ye válidu.</string>
+    <string name="ssl_error_date_invalid">Esti certificáu tien una data que nun ye válida.</string>
+    <string name="ssl_error_invalid">Esti certificáu nun ye válidu.</string>
+    <string name="ssl_error_unknown">Fallu de certificáu desconocíu.</string>
+    <string name="ssl_security_warning_title">Alvertencia de seguranza</string>
+    <string name="ssl_error_view_certificate">Ver el certificáu</string>
     <string name="ok">D\'acuerdu</string>
+    <string name="page_info_address">Direición:</string>
+    <string name="page_info">Información de la páxina</string>
 </resources>
